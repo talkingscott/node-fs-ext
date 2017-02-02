@@ -194,7 +194,7 @@ static void EIO_Fcntl(uv_work_t *req) {
   store_data_t* data = static_cast<store_data_t *>(req->data);
   int result = data->result = fcntl(data->fd, data->oper, data->arg);
   if (result == -1) {
-    data->error = errno;
+    data->error = errno ;
   }
 }
 
