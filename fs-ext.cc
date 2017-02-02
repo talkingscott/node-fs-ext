@@ -195,11 +195,11 @@ static void EIO_Fcntl(uv_work_t *req) {
 #ifndef _WIN32
   int result = data->result = fcntl(data->fd, data->oper, data->arg);
   if (result == -1) {
-    data->error = errno ;
+    data->error = errno;
   }
 #else
   data->result = -1;
-  data->errno = errno;
+  data->error = errno;
 #endif
 }
 
