@@ -17,6 +17,10 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+#ifdef _WIN32
+#define DELAYIMP_INSECURE_WRITABLE_HOOKS
+#endif
+
 #include <node.h>
 #include <fcntl.h>
 #include <errno.h>
