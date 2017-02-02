@@ -192,10 +192,15 @@ static void EIO_Seek(uv_work_t *req) {
 
 static void EIO_Fcntl(uv_work_t *req) {
   store_data_t* data = static_cast<store_data_t *>(req->data);
+#ifndef _WIN32
   int result = data->result = fcntl(data->fd, data->oper, data->arg);
   if (result == -1) {
     data->error = errno ;
   }
+#else
+  data->result = -1;
+  data->errno = errno;
+#endif
 }
 
 #ifdef _WIN32
@@ -371,7 +376,11 @@ static NAN_METHOD(Fcntl) {
   int arg = info[2]->Int32Value();
 
   if ( ! info[3]->IsFunction()) {
+#ifndef _WIN32
     int result = fcntl(fd, cmd, arg);
+#else
+    int result = -1;
+#endif
     if (result == -1) return Nan::ThrowError(Nan::ErrnoException(errno));
     info.GetReturnValue().Set(Nan::New<Number>(result));
     return;
